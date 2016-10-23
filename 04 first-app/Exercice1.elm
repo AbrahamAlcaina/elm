@@ -4,22 +4,18 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Html.App as App
-import String
 
 
 -- model
 
 
 type alias Model =
-    { calories : Int
-    , input : String
-    , error : Maybe String
-    }
+    Int
 
 
 initModel : Model
 initModel =
-    { calories = 0, input = "", error = Nothing }
+    0
 
 
 
@@ -27,30 +23,15 @@ initModel =
 
 
 type Msg
-    = AddCalories
+    = AddCalories Int
     | Clear
-    | Input String
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        Input val ->
-            case String.toInt val of
-                Ok input ->
-                    { model
-                        | calories = input
-                        , error = Nothing
-                    }
-
-                Err err ->
-                    { model
-                        | input = ""
-                        , error = Just err
-                    }
-
-        AddCalories ->
-            model
+        AddCalories calories ->
+            model + calories
 
         Clear ->
             initModel
@@ -67,7 +48,7 @@ view model =
             [ text ("Total Calories: " ++ (toString model)) ]
         , button
             [ type' "button"
-            , onClick AddCalories
+            , onClick AddCalorie
             ]
             [ text "Add" ]
         , button
